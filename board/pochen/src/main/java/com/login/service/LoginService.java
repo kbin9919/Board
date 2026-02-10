@@ -30,8 +30,13 @@ public class LoginService {
                 .setId(userEntity.userId)
                 .setPwd(userEntity.userId);
 
-        LoginChainResult result = chainService.LoginVerification(context);
+        chainService.LoginVerification(context);
 
-        return new LoginResponseDto();
+        // Todo 간소화하기
+        LoginResponseDto returnValue = new LoginResponseDto();
+        returnValue.id = userEntity.userId;
+        returnValue.pwd = userEntity.userPwd;
+        returnValue.name = userEntity.name;
+        return returnValue;
     }
 }

@@ -1,4 +1,6 @@
 package com.login.chain;
 
-public class LoginChain {
+@FunctionalInterface
+public interface LoginChain {
+    void validate(LoginChainContext context);
 }

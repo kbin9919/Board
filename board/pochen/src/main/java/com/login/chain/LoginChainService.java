@@ -7,7 +7,7 @@ public class LoginChainService {
         this.chainFactory = chainFactory;
     }
 
-    public LoginChainResult LoginVerification(LoginChainContext context) {
-        return null;
+    public void LoginVerification(LoginChainContext context) {
+        chainFactory.validators().forEach(v -> v.validate(context));
     }
 }
