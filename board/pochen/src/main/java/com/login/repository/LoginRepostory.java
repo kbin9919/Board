@@ -6,10 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class LoginRepostory {
 
-    public LoginRepostory(){
-
-    }
-
+    public LoginRepostory(){ }
 
     public UserEntity getUser(String id, String pwd) {
         return null;

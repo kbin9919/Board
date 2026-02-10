@@ -3,6 +3,7 @@ package com.login.service;
 import com.login.chain.LoginChainContext;
 import com.login.chain.LoginChainResult;
 import com.login.chain.LoginChainService;
+import com.login.dto.LoginResult;
 import com.login.dto.response.LoginResponseDto;
 import com.login.entity.UserEntity;
 import com.login.repository.LoginRepostory;
@@ -21,7 +22,7 @@ public class LoginService {
         this.chainService = chainService;
     }
 
-    public LoginResponseDto login(String id, String pwd) {
+    public LoginResult login(String id, String pwd) {
         UserEntity userEntity = repository.getUser(id, pwd);
 
         LoginChainContext context = new LoginChainContext()
@@ -33,7 +34,7 @@ public class LoginService {
         chainService.LoginVerification(context);
 
         // Todo 간소화하기
-        LoginResponseDto returnValue = new LoginResponseDto();
+        LoginResult returnValue = new LoginResult();
         returnValue.id = userEntity.userId;
         returnValue.pwd = userEntity.userPwd;
         returnValue.name = userEntity.name;
