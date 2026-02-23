@@ -1,5 +1,10 @@
 package com.login.dto.response;
 
+import lombok.*;
+
+@Data
+@Builder
+@AllArgsConstructor
 public class LoginResponseDto {
     public String id;
     public String pwd;

@@ -4,6 +4,9 @@ import com.login.dto.request.LoginRequestDto;
 import com.login.dto.response.LoginResponseDto;
 import com.login.service.LoginService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,15 +19,16 @@ public class LoginController {
         this.service = service;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(LoginRequestDto request) {
-        LoginResult result = service.login(request.id, request.pwd);
+    @GetMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@AuthenticationPrincipal UserDetails userDetails)
+    {
+        LoginResult result = service.login(userDetails.getUsername(), userDetails.getPassword());
 
-        //Todo 간소화하기
-        LoginResponseDto response = new LoginResponseDto();
-        response.id = result.id;
-        response.pwd = result.pwd;
-        response.name = result.name;
+        LoginResponseDto response = LoginResponseDto.builder()
+                .id(result.id)
+                .pwd(result.pwd)
+                .name(result.name)
+                .build();
 
         return ResponseEntity.ok(response);
     }
