@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,15 +21,15 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@AuthenticationPrincipal UserDetails userDetails)
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request)
     {
-        LoginResult result = service.login(userDetails.getUsername(), userDetails.getPassword());
+        LoginResult result = service.login(request);
 
         LoginResponseDto response = LoginResponseDto.builder()
-                .id(result.id)
-                .pwd(result.pwd)
-                .name(result.name)
-                .build();
+                                    .id(result.id)
+                                    .pwd(result.pwd)
+                                    .name(result.name)
+                                    .build();
 
         return ResponseEntity.ok(response);
     }

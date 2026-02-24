@@ -5,8 +5,8 @@ import lombok.Data;
 public class LoginChainContext {
     public String inputId;
     public String inputPwd;
-    public String id;
-    public String pwd;
+    public String realId;
+    public String realPwd;
 
     public LoginChainContext setInputId(String inputId) {
         this.inputId = inputId;
@@ -19,11 +19,11 @@ public class LoginChainContext {
     }
 
     public LoginChainContext setId(String id) {
-        this.id = id;
+        this.realId = id;
         return this;
     }
     public LoginChainContext setPwd(String pwd) {
-        this.pwd = pwd;
+        this.realPwd = pwd;
         return this;
     }
 

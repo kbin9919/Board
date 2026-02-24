@@ -1,43 +1,41 @@
 package com.login.service;
 
 import com.login.chain.LoginChainContext;
-import com.login.chain.LoginChainResult;
 import com.login.chain.LoginChainService;
 import com.login.dto.LoginResult;
-import com.login.dto.response.LoginResponseDto;
+import com.login.dto.request.LoginRequestDto;
 import com.login.entity.UserEntity;
-import com.login.repository.LoginRepostory;
-import jakarta.persistence.Id;
+import com.login.repository.LoginRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
 
-    public LoginRepostory repository;
+    public LoginRepository repository;
     public LoginChainService chainService;
 
-    public LoginService(LoginRepostory repository, LoginChainService chainService)
+    public LoginService(LoginRepository repository, LoginChainService chainService)
     {
         this.repository = repository;
         this.chainService = chainService;
     }
 
-    public LoginResult login(String id, String pwd) {
-        UserEntity userEntity = repository.getUser(id, pwd);
+    public LoginResult login(LoginRequestDto request) {
+        UserEntity userEntity = repository.getUser(request.id, request.pwd);
 
         LoginChainContext context = new LoginChainContext()
-                .setInputId(id)
-                .setInputPwd(pwd)
+                .setInputId(request.id)
+                .setInputPwd(request.pwd)
                 .setId(userEntity.userId)
                 .setPwd(userEntity.userId);
 
         chainService.LoginVerification(context);
 
         // Todo 간소화하기
-        LoginResult returnValue = new LoginResult();
-        returnValue.id = userEntity.userId;
-        returnValue.pwd = userEntity.userPwd;
-        returnValue.name = userEntity.name;
-        return returnValue;
+        return LoginResult.builder()
+                .id(userEntity.userId)
+                .pwd(userEntity.userId)
+                .name(userEntity.name)
+                .build();
     }
 }

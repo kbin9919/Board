@@ -13,13 +13,13 @@ public class LoginChainFactory {
     }
 
     private void validateId(LoginChainContext context) {
-        if (!context.inputId.equals(context.id)) {
+        if (!context.inputId.equals(context.realId)) {
             throw new RuntimeException();
         }
     }
 
     private void validatePwd(LoginChainContext context) {
-        if (!context.inputPwd.equals(context.pwd)) {
+        if (!context.inputPwd.equals(context.realPwd)) {
             throw new RuntimeException();
         }
     }
