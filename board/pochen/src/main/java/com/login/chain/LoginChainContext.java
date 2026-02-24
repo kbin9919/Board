@@ -1,7 +1,10 @@
 package com.login.chain;
 
+import lombok.Builder;
 import lombok.Data;
 
+@Data
+@Builder
 public class LoginChainContext {
     public String inputId;
     public String inputPwd;

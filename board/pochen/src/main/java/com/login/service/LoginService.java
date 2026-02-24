@@ -6,6 +6,7 @@ import com.login.dto.LoginResult;
 import com.login.dto.request.LoginRequestDto;
 import com.login.entity.UserEntity;
 import com.login.repository.LoginRepository;
+import org.hibernate.tool.schema.spi.SqlScriptException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,13 +22,18 @@ public class LoginService {
     }
 
     public LoginResult login(LoginRequestDto request) {
-        UserEntity userEntity = repository.getUser(request.id, request.pwd);
 
-        LoginChainContext context = new LoginChainContext()
-                .setInputId(request.id)
-                .setInputPwd(request.pwd)
-                .setId(userEntity.userId)
-                .setPwd(userEntity.userId);
+        //Todo 에러코드 Constant 분리하기
+        UserEntity userEntity = repository.findById(request.id)
+                .orElseThrow(() -> new SqlScriptException(""));
+
+
+        LoginChainContext context = LoginChainContext.builder()
+                .inputId(request.id)
+                .inputPwd(request.pwd)
+                .realId(userEntity.userId)
+                .realPwd(userEntity.userId)
+                .build();
 
         chainService.LoginVerification(context);
 
