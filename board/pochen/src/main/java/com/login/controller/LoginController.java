@@ -5,6 +5,7 @@ import com.login.dto.response.LoginResponseDto;
 import com.login.service.LoginService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,17 +18,20 @@ public class LoginController {
         this.service = service;
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request)
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequestDto request)
     {
+        System.out.println(request.id);
+        System.out.println(request.pwd);
+        
         LoginResult result = service.login(request);
 
         LoginResponseDto response = LoginResponseDto.builder()
                                     .id(result.id)
-                                    .pwd(result.pwd)
                                     .name(result.name)
                                     .build();
 
-        return ResponseEntity.ok(response);
+        return "loginSuccess";  // login.jsp
+//        return ResponseEntity.ok(response);
     }
 }

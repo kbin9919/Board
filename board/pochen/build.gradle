@@ -26,7 +26,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1'
 	compileOnly 'org.projectlombok:lombok'
@@ -35,6 +35,15 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:4.0.1'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// JDBC
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	// MSSQL Driver
+	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+//	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+//	runtimeOnly 'org.glassfish.web:jakarta.servlet.jsp.jstl'
 }
 
 tasks.named('test') {

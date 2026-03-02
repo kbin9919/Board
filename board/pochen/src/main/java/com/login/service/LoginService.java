@@ -1,6 +1,7 @@
 package com.login.service;
 
 import com.login.chain.LoginChainContext;
+import com.login.chain.LoginChainFactory;
 import com.login.chain.LoginChainService;
 import com.login.dto.LoginResult;
 import com.login.dto.request.LoginRequestDto;
@@ -15,10 +16,10 @@ public class LoginService {
     public LoginRepository repository;
     public LoginChainService chainService;
 
-    public LoginService(LoginRepository repository, LoginChainService chainService)
+    public LoginService(LoginRepository repository)
     {
         this.repository = repository;
-        this.chainService = chainService;
+        this.chainService = new LoginChainService(new LoginChainFactory());
     }
 
     public LoginResult login(LoginRequestDto request) {
@@ -27,12 +28,11 @@ public class LoginService {
         UserEntity userEntity = repository.findById(request.id)
                 .orElseThrow(() -> new SqlScriptException(""));
 
-
         LoginChainContext context = LoginChainContext.builder()
                 .inputId(request.id)
                 .inputPwd(request.pwd)
                 .realId(userEntity.userId)
-                .realPwd(userEntity.userId)
+                .realPwd(userEntity.userPwd)
                 .build();
 
         chainService.LoginVerification(context);
